@@ -313,6 +313,7 @@
   .hero-puntos button.on{background:#fff;width:46px;}
   .hero-puntos button:focus-visible{outline:2px solid #fff;outline-offset:4px;}
   @media (max-width:640px){
+    .hero-vid,.hero-fb{object-position:center 46%;}
     .hero-fl{width:42px;height:42px;}
     .hero-puntos button{width:24px;}.hero-puntos button.on{width:34px;}
   }
@@ -660,9 +661,9 @@
   <!-- Video real de las instalaciones. La foto queda como respaldo en movil y sin JS. -->
   <div class="hero-foto">
     <video class="hero-vid on" src="videos/dron-1.mp4" poster="videos/poster-dron.jpg" muted playsinline preload="auto" aria-hidden="true"></video>
-    <video class="hero-vid" src="videos/dron-2.mp4" poster="videos/poster-dron.jpg" muted playsinline preload="metadata" aria-hidden="true"></video>
-    <video class="hero-vid" src="videos/dron-3.mp4" poster="videos/poster-dron.jpg" muted playsinline preload="metadata" aria-hidden="true"></video>
-    <img class="hero-fb" src="fotos/hero-cosecha-tomate.jpg" alt="Instalaciones de Viveros y Semilleros La Sala" loading="eager">
+    <video class="hero-vid" src="videos/dron-2.mp4" poster="videos/poster-dron.jpg" muted playsinline preload="none" aria-hidden="true"></video>
+    <video class="hero-vid" src="videos/dron-3.mp4" poster="videos/poster-dron.jpg" muted playsinline preload="none" aria-hidden="true"></video>
+    <img class="hero-fb" src="videos/poster-dron.jpg" alt="Vista aérea de las instalaciones de Viveros y Semilleros La Sala" loading="eager">
   </div>
   <div class="hero-velo"></div>
   <div class="hero-nav" hidden>
@@ -823,7 +824,7 @@
       <h2>Hacerlo bien no es un <span class="ital">eslogan</span>.</h2>
       <p>Son cinco motivos por los que tu planta sale mejor preparada de aquí.</p>
     </div>
-    <div class="obs-agencia">OBSERVACIÓN PARA LA AGENCIA — Cada tarjeta de valor incorporará un vídeo (de fondo o insertado). Reservar el espacio y prever el formato: MP4/WebM, aprox. 8–15 s, en bucle, sin audio y optimizado para web.</div>
+    <!-- OBSERVACIÓN PARA LA AGENCIA: cada tarjeta de valor incorporará un vídeo (de fondo o insertado). Reservar el espacio y prever el formato: MP4/WebM, aprox. 8-15 s, en bucle, sin audio y optimizado para web. -->
     <div class="bento">
       <div class="cell big blue rv">
         <div class="icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="7"/><path d="M9 10l2 2 4-4"/><path d="M8 16l-2 5 6-3 6 3-2-5"/></svg></div>
@@ -1299,7 +1300,12 @@
     var nav  = hero.querySelector('.hero-nav');
     var pts  = nav ? [].slice.call(nav.querySelectorAll('.hero-puntos button')) : [];
     if(vids.length < 2 || !nav) return;
-    if(reduced || window.matchMedia('(max-width:760px)').matches) return;
+    /* Antes se desactivaba en movil y eso daba dos webs distintas segun el aparato.
+       Ahora el video va en todos los tamanos. Solo se respeta el ahorro de datos
+       y la preferencia de reducir movimiento del propio sistema. */
+    var con = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    var ahorro = !!(con && (con.saveData === true || /2g/.test(con.effectiveType || '')));
+    if(reduced || ahorro) return;
 
     hero.classList.add('video');
     nav.hidden = false;
