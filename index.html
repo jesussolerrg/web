@@ -273,21 +273,19 @@
   .hero-vid.on{opacity:1;}
   .hero-fb{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;}
   /* Con video activo la foto de respaldo desaparece; sin JS se queda la foto */
-  .escena.video .hero-fb{display:none;}
-  .escena:not(.video) .hero-vid{display:none;}
 
   /* Velo mas denso: el dron trae cielo claro y plastico blanco */
-  .escena.video .hero-velo{background:
+  .escena .hero-velo{background:
       radial-gradient(120% 85% at 50% 46%,rgba(8,12,7,.16) 0%,rgba(8,12,7,.4) 62%,rgba(8,12,7,.6) 100%),
       linear-gradient(180deg,rgba(8,12,7,.36) 0%,rgba(8,12,7,.12) 38%,rgba(8,12,7,.6) 100%);}
   /* Sombra local detras del texto: el video trae naves blancas y cielo claro */
-  .escena.video .hero-cont::before{content:"";position:absolute;z-index:-1;
+  .escena .hero-cont::before{content:"";position:absolute;z-index:-1;
     left:50%;top:50%;transform:translate(-50%,-50%);
     width:150%;height:190%;pointer-events:none;
     background:radial-gradient(closest-side ellipse at 50% 50%,
       rgba(6,10,6,.62) 0%,rgba(6,10,6,.5) 42%,rgba(6,10,6,.24) 70%,transparent 100%);}
-  .escena.video h1{text-shadow:0 2px 26px rgba(0,0,0,.6),0 1px 3px rgba(0,0,0,.45);}
-  .escena.video .hero-eyebrow{text-shadow:0 1px 14px rgba(0,0,0,.7);}
+  .escena h1{text-shadow:0 2px 26px rgba(0,0,0,.6),0 1px 3px rgba(0,0,0,.45);}
+  .escena .hero-eyebrow{text-shadow:0 1px 14px rgba(0,0,0,.7);}
 
   /* Flechas y puntos */
   .hero-nav{position:absolute;inset:0;z-index:2;pointer-events:none;}
@@ -658,27 +656,10 @@
 <div class="escena">
 
   <div class="escena-fondo">
-  <!-- Video real de las instalaciones. La foto queda como respaldo en movil y sin JS. -->
-  <div class="hero-foto">
-    <video class="hero-vid on" src="videos/dron-1.mp4" poster="videos/poster-dron.jpg" muted playsinline preload="auto" aria-hidden="true"></video>
-    <video class="hero-vid" src="videos/dron-2.mp4" poster="videos/poster-dron.jpg" muted playsinline preload="none" aria-hidden="true"></video>
-    <video class="hero-vid" src="videos/dron-3.mp4" poster="videos/poster-dron.jpg" muted playsinline preload="none" aria-hidden="true"></video>
-    <img class="hero-fb" src="videos/poster-dron.jpg" alt="Vista aérea de las instalaciones de Viveros y Semilleros La Sala" loading="eager">
-  </div>
-  <div class="hero-velo"></div>
-  <div class="hero-nav" hidden>
-    <button class="hero-fl prev" type="button" aria-label="Vídeo anterior">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
-    </button>
-    <button class="hero-fl next" type="button" aria-label="Vídeo siguiente">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
-    </button>
-    <div class="hero-puntos" role="tablist" aria-label="Vídeos de las instalaciones">
-      <button type="button" class="on" aria-label="Vídeo 1"></button>
-      <button type="button" aria-label="Vídeo 2"></button>
-      <button type="button" aria-label="Vídeo 3"></button>
+    <div class="hero-foto">
+      <img src="fotos/hero-cosecha-tomate.jpg" alt="Cajón de madera con tomates, pimientos y berenjenas recién recogidos" loading="eager">
     </div>
-  </div>
+    <div class="hero-velo"></div>
   </div>
 
 <section class="hero" id="inicio">
@@ -1291,64 +1272,6 @@
   }
 })();
 
-  /* Carrusel de video del hero: solo en pantallas grandes y si el usuario acepta movimiento */
-  (function(){
-    var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var hero = document.querySelector('.escena');
-    if(!hero) return;
-    var vids = [].slice.call(hero.querySelectorAll('.hero-vid'));
-    var nav  = hero.querySelector('.hero-nav');
-    var pts  = nav ? [].slice.call(nav.querySelectorAll('.hero-puntos button')) : [];
-    if(vids.length < 2 || !nav) return;
-    /* Antes se desactivaba en movil y eso daba dos webs distintas segun el aparato.
-       Ahora el video va en todos los tamanos. Solo se respeta el ahorro de datos
-       y la preferencia de reducir movimiento del propio sistema. */
-    var con = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-    var ahorro = !!(con && (con.saveData === true || /2g/.test(con.effectiveType || '')));
-    if(reduced || ahorro) return;
-
-    hero.classList.add('video');
-    nav.hidden = false;
-    var i = 0, tmr = null;
-
-    function ir(n, manual){
-      n = (n + vids.length) % vids.length;
-      if(n === i && !manual) return;
-      var ant = vids[i]; i = n;
-      vids.forEach(function(v,k){ v.classList.toggle('on', k===i); });
-      pts.forEach(function(b,k){ b.classList.toggle('on', k===i); });
-      var v = vids[i];
-      v.currentTime = 0;
-      var pr = v.play(); if(pr && pr.catch) pr.catch(function(){});
-      setTimeout(function(){ if(ant !== v){ ant.pause(); ant.currentTime = 0; } }, 900);
-      reloj();
-    }
-    function reloj(){
-      clearTimeout(tmr);
-      tmr = setTimeout(function(){ ir(i+1); }, 5200);
-    }
-    nav.querySelector('.prev').addEventListener('click', function(){ ir(i-1, true); });
-    nav.querySelector('.next').addEventListener('click', function(){ ir(i+1, true); });
-    pts.forEach(function(b,k){ b.addEventListener('click', function(){ ir(k, true); }); });
-    vids.forEach(function(v){ v.addEventListener('ended', function(){ if(v.classList.contains('on')) ir(i+1); }); });
-
-    var pr = vids[0].play(); if(pr && pr.catch) pr.catch(function(){});
-    reloj();
-
-    /* Al dejar atras el hero, las flechas se retiran para no molestar al texto */
-    var tick=false;
-    window.addEventListener('scroll',function(){
-      if(tick) return; tick=true;
-      requestAnimationFrame(function(){
-        hero.classList.toggle('pasado', window.scrollY > window.innerHeight*.72);
-        tick=false;
-      });
-    },{passive:true});
-    document.addEventListener('visibilitychange', function(){
-      if(document.hidden){ clearTimeout(tmr); vids[i].pause(); }
-      else { var p = vids[i].play(); if(p && p.catch) p.catch(function(){}); reloj(); }
-    });
-  })();
 </script>
 </body>
 </html>
