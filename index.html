@@ -8,7 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Source+Serif+4:ital,wght@1,400;1,600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --azul:#01338A; --acento:#01338A; --acento-claro:#8FB0E8;
+    --azul:#01338A; --acento:#01338A; --acento-claro:#8FB0E8; --azul-luz:#5B8DFF;
     --bg:#F7F6F1; --card:#ffffff; --negro:#1E2823; /* carbón verdoso, no negro puro */
     --arena:#E8E1D5; --tierra:#A8784D;
     --fg:#253029; --fg-dim:#667068; --fg-dimmer:#9aa39b;
@@ -134,12 +134,12 @@
     background:linear-gradient(180deg,rgba(6,10,6,.5) 0%,rgba(6,10,6,.8) 46%,rgba(6,10,6,.9) 100%);}
   .escena .manif::before{background:linear-gradient(90deg,transparent,rgba(255,255,255,.28),transparent);}
   .escena .manif-in::before{color:rgba(255,255,255,.12);}
-  .escena .manif-lbl{color:#fff;}
+  .escena .manif-lbl{color:var(--azul-luz);}
   .escena .manif-frase{color:#fff;text-shadow:0 2px 22px rgba(0,0,0,.5);}
-  .escena .manif-frase .ital{color:#fff;-webkit-text-fill-color:#fff;}
+  .escena .manif-frase .ital{color:var(--azul-luz);-webkit-text-fill-color:var(--azul-luz);}
   .escena .manif-txt{color:rgba(255,255,255,.9);text-shadow:0 1px 14px rgba(0,0,0,.5);}
   .escena .manif-firma{color:rgba(255,255,255,.74);border-top-color:rgba(255,255,255,.2);}
-  .escena .manif-firma b{color:#fff;}
+  .escena .manif-firma b{color:var(--azul-luz);}
   .escena .manif::after{content:"";position:absolute;left:0;right:0;bottom:0;height:160px;
     background:linear-gradient(180deg,rgba(247,246,241,0),var(--bg));pointer-events:none;}
 
@@ -257,7 +257,7 @@
     letter-spacing:0;padding-right:.06em;}
   .hero h1 .h1-trazo{position:absolute;left:-4%;right:-4%;bottom:-.16em;width:108%;height:.34em;
     overflow:visible;pointer-events:none;}
-  .hero h1 .h1-trazo path{fill:none;stroke:#fff;stroke-width:3.4;stroke-linecap:round;
+  .hero h1 .h1-trazo path{fill:none;stroke:var(--azul-luz);stroke-width:3.4;stroke-linecap:round;
     stroke-dasharray:1;stroke-dashoffset:1;
     filter:drop-shadow(0 2px 8px rgba(0,0,0,.45));
     animation:h1-traza .9s cubic-bezier(.65,0,.35,1) 1.05s forwards;}
@@ -338,7 +338,7 @@
     color:var(--azul);-webkit-text-fill-color:var(--azul);letter-spacing:0;
   }
   #cifras .ital{color:#fff;-webkit-text-fill-color:#fff;}
-  .cta-fin .ital{color:#fff;-webkit-text-fill-color:#fff;}
+  .cta-fin .ital{color:var(--azul-luz);-webkit-text-fill-color:var(--azul-luz);text-shadow:0 2px 18px rgba(0,0,0,.55);}
   section:not(.hero) .eyebrow{color:var(--azul);}
 
   /* ===== Valores — bento claro ===== */
@@ -371,7 +371,7 @@
   /* Celda azul corporativo */
   .cell.blue{background:linear-gradient(150deg,#01338A,#012563);color:#fff;border-color:transparent;}
   .cell.blue p{color:#c3d1ec;}
-  .cell.blue .num{color:#fff;}
+  .cell.blue .num{color:var(--azul-luz);}
   .cell.blue .icon{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.28);}
   .cell.blue .icon svg{stroke:#fff;}
   @media (max-width:860px){.cell.big,.cell.small,.cell.half{grid-column:span 6;}}
@@ -419,7 +419,7 @@
     transition:opacity .45s ease,transform .5s cubic-bezier(.22,.61,.36,1),visibility .45s;
   }
   .prod.open .panel{opacity:1;visibility:visible;transform:none;}
-  .prod .panel h4{font-size:.7rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#fff;margin-bottom:14px;}
+  .prod .panel h4{font-size:.7rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--azul-luz);margin-bottom:14px;}
   .prod .panel ul{list-style:none;display:flex;flex-wrap:wrap;gap:8px;}
   .prod .panel li{
     font-size:.8rem;font-weight:600;padding:7px 15px;border-radius:999px;cursor:pointer;
@@ -452,7 +452,7 @@
   .prod-preview.show .pv-foto{transform:scale(1);}
   .prod-preview .pv-grad{position:absolute;inset:0;background:linear-gradient(180deg,transparent 42%,rgba(1,22,56,.9));}
   .prod-preview .pv-cap{position:absolute;left:32px;right:32px;bottom:26px;color:#fff;}
-  .prod-preview .pv-cap .pl{font-size:.7rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#fff;}
+  .prod-preview .pv-cap .pl{font-size:.7rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--azul-luz);}
   .prod-preview .pv-cap h3{font-size:clamp(1.7rem,3.6vw,2.6rem);font-weight:800;letter-spacing:-.02em;margin-top:4px;}
   .prod-preview .pv-hint{position:absolute;top:18px;left:20px;font-size:.66rem;font-weight:600;letter-spacing:.12em;
     color:#fff;background:rgba(1,51,138,.55);padding:6px 14px;border-radius:20px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);}
@@ -574,7 +574,7 @@
   #cifras .sec-head h2{background:none;-webkit-text-fill-color:#fff;color:#fff;}
   #cifras .grad-text{background:none;color:#fff;-webkit-text-fill-color:#fff;
     -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
-  #cifras .eyebrow{color:#fff;}
+  #cifras .eyebrow{color:var(--azul-luz);}
   #cifras .sec-head p{color:#c3d1ec;}
   #cifras .pend-i{color:var(--acento-claro);}
   .cifras-g{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;position:relative;}
@@ -588,6 +588,7 @@
   .cifra:hover{transform:translateY(-6px);background:rgba(255,255,255,.12);}
   .cifra .v{font-size:clamp(2.2rem,4vw,3rem);font-weight:800;letter-spacing:-.03em;font-variant-numeric:tabular-nums;
     color:#fff;-webkit-text-fill-color:#fff;}
+  .cifra{border-top-color:var(--azul-luz);}
   .cifra .l{font-size:.85rem;color:#fff;margin-top:8px;font-weight:600;}
   .cifra .s{font-size:.72rem;color:#b8c6e4;margin-top:3px;}
   .cifra .pend{font-size:.6rem;color:var(--acento-claro);font-weight:700;letter-spacing:.06em;margin-top:12px;}
@@ -634,7 +635,7 @@
       rgba(3,9,16,.68) 0%,rgba(3,9,16,.52) 46%,rgba(3,9,16,.2) 74%,transparent 100%);}
   /* El degradado azul de la tarjeta solo se ve si el video no carga */
   .cta-card > .cta-lbl,.cta-card > h2,.cta-card > p,.cta-card > .cta{position:relative;z-index:2;}
-  .cta-fin p .ac{color:#fff;font-weight:700;}
+  .cta-fin p .ac{color:var(--azul-luz);font-weight:700;}
   .cta-lbl{display:inline-block;margin-bottom:clamp(18px,2.4vw,26px);
     font-size:.66rem;font-weight:800;letter-spacing:.24em;text-transform:uppercase;color:var(--acento-claro);}
   /* Sobre imagen, el titular va en blanco macizo con sombra: el degradado se perdía */
