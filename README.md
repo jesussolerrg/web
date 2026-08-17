@@ -9,11 +9,12 @@ Prototipo de la home de Viveros y Semilleros La Sala, listo para publicar en Git
 ```
 index.html     La web entera (HTML, CSS y JavaScript en un solo archivo)
 fotos/         Las imágenes que usa
+videos/        El vídeo aéreo del bloque de cierre y su fotograma de respaldo
 .nojekyll      Archivo vacío. Evita que GitHub procese la web como un blog
 README.md      Este documento
 ```
 
-Peso total: unos 4,5 MB. Muy por debajo del límite de GitHub Pages (1 GB por repositorio, 100 MB por archivo).
+Peso total: unos 11 MB, casi todo el vídeo del cierre. Muy por debajo del límite de GitHub Pages (1 GB por repositorio, 100 MB por archivo).
 
 ---
 
@@ -36,6 +37,7 @@ Pulsa el enlace **uploading an existing file** y arrastra **el contenido de esta
 
 - `index.html`
 - la carpeta `fotos`
+- la carpeta `videos`
 - `.nojekyll`
 
 Abajo escribe `Primera versión` y **Commit changes**.
@@ -104,3 +106,11 @@ Dos reglas: **nombres sin espacios, sin acentos y sin eñes** (`hero-cosecha-tom
 ```
 
 **Dominio propio.** Para publicarlo en algo como `nueva.viveroslasala.com`: *Settings → Pages → Custom domain*, y requiere un cambio en el DNS.
+
+### Cambiar el vídeo del cierre
+
+Está en `videos/dron-completo.mp4`. Si lo sustituyes, mantén el nombre y no hay que tocar el `index.html`.
+
+Requisitos: **MP4 (H.264), sin pista de audio y por debajo de 6 MB**. El actual está a 1600 px y calidad CRF 24. No se descarga al abrir la web: solo cuando el visitante llega a esa sección, y se pausa al salir de pantalla.
+
+`poster-completo.jpg` es la imagen que se ve mientras carga y la que queda si el navegador tiene el ahorro de datos activado. Conviene cambiarla si cambias el vídeo.
