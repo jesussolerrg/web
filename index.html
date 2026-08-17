@@ -12,7 +12,7 @@
     --bg:#F7F6F1; --card:#ffffff; --negro:#1E2823; /* carbón verdoso, no negro puro */
     --arena:#E8E1D5; --tierra:#A8784D;
     --fg:#253029; --fg-dim:#667068; --fg-dimmer:#9aa39b;
-    --radius:24px; --maxw:1100px;
+    --radius:12px; --maxw:1280px;
   }
   *{box-sizing:border-box;margin:0;padding:0;}
   html{scroll-behavior:smooth;}
@@ -23,7 +23,8 @@
   }
   img{display:block;width:100%;height:100%;object-fit:cover;}
   a{color:inherit;text-decoration:none;}
-  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px;}
+  .wrap{width:min(var(--maxw),calc(100% - 48px));margin-inline:auto;}
+  @media (max-width:600px){.wrap{width:calc(100% - 32px);}}
 
   /* ===== Reveal on scroll ===== */
   /* Revelado al hacer scroll: curva ease-out fuerte, corto y con escalonado breve */
@@ -79,7 +80,7 @@
     margin-bottom:14px;letter-spacing:.01em;text-shadow:0 2px 14px rgba(0,0,0,.6);
     animation:hero-sube .6s cubic-bezier(.23,1,.32,1) .25s both;}
   .hero h1{font-size:clamp(2.2rem,5.4vw,4.3rem);font-weight:800;letter-spacing:-.03em;line-height:1.04;
-    color:#fff;background:none;-webkit-text-fill-color:#fff;max-width:19ch;margin:0 auto;
+    color:#fff;background:none;-webkit-text-fill-color:#fff;max-width:22ch;margin:0 auto;
     text-shadow:0 3px 26px rgba(0,0,0,.5);
     animation:hero-revela .85s cubic-bezier(.23,1,.32,1) .42s both;}
   /* Usa translate (no transform) para no anular el scale del :active */
@@ -119,6 +120,56 @@
   /* Pretitulos en cursiva azul: retirados a peticion */
   .eyebrow{display:none !important;}
 
+  /* ===== Escena fija: el video se queda quieto y el texto pasa por encima ===== */
+  .escena{position:relative;}
+  .escena-fondo{position:sticky;top:0;height:100svh;margin-bottom:-100svh;
+    z-index:0;overflow:hidden;background:#1a1f16;}
+  .escena>section{position:relative;z-index:1;background:transparent;}
+  .escena .hero{background:transparent;}
+  .escena-fondo .hero-nav{transition:opacity .45s ease;}
+  .escena.pasado .hero-nav{opacity:0;pointer-events:none;}
+
+  /* Manifiesto sobre el video: texto claro y sombra propia */
+  .escena .manif{padding-block:clamp(110px,17vh,210px);
+    background:linear-gradient(180deg,rgba(6,10,6,.5) 0%,rgba(6,10,6,.8) 46%,rgba(6,10,6,.9) 100%);}
+  .escena .manif::before{background:linear-gradient(90deg,transparent,rgba(255,255,255,.28),transparent);}
+  .escena .manif-in::before{color:rgba(255,255,255,.12);}
+  .escena .manif-lbl{color:#E9C98A;}
+  .escena .manif-frase{color:#fff;text-shadow:0 2px 22px rgba(0,0,0,.5);}
+  .escena .manif-frase .ital{color:#E9C98A;-webkit-text-fill-color:#E9C98A;}
+  .escena .manif-txt{color:rgba(255,255,255,.9);text-shadow:0 1px 14px rgba(0,0,0,.5);}
+  .escena .manif-firma{color:rgba(255,255,255,.74);border-top-color:rgba(255,255,255,.2);}
+  .escena .manif-firma b{color:#E9C98A;}
+  .escena .manif::after{content:"";position:absolute;left:0;right:0;bottom:0;height:160px;
+    background:linear-gradient(180deg,rgba(247,246,241,0),var(--bg));pointer-events:none;}
+
+  /* ===== Manifiesto: el porqué, justo debajo del hero ===== */
+  .manif{background:var(--bg);overflow:hidden;
+    padding-block:clamp(88px,10vw,150px);}
+  .manif::before{content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);
+    width:min(760px,72%);height:1px;
+    background:linear-gradient(90deg,transparent,rgba(1,51,138,.3),transparent);}
+  .manif-in{position:relative;max-width:900px;margin-inline:auto;text-align:center;}
+  /* Comilla sobredimensionada de fondo */
+  .manif-in::before{content:"“";position:absolute;top:-.42em;left:50%;transform:translateX(-50%);
+    font-family:'Source Serif 4',Georgia,serif;font-style:italic;font-size:clamp(9rem,17vw,15rem);line-height:1;
+    color:var(--arena);z-index:0;pointer-events:none;user-select:none;}
+  .manif-in>*{position:relative;z-index:1;}
+  .manif-lbl{display:inline-block;font-size:.66rem;font-weight:800;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--azul);margin-bottom:clamp(22px,3vw,34px);}
+  .manif-frase{font-size:clamp(1.7rem,3.7vw,3.05rem);font-weight:700;letter-spacing:-.03em;
+    line-height:1.12;color:var(--negro);max-width:24ch;margin-inline:auto;}
+  .manif-frase .ital{font-weight:600;}
+  .manif-txt{margin-top:clamp(24px,3vw,36px);font-size:clamp(1.02rem,1.6vw,1.24rem);
+    line-height:1.62;color:var(--fg);max-width:60ch;margin-inline:auto;}
+  .manif-firma{margin-top:clamp(26px,3.2vw,40px);padding-top:clamp(20px,2.4vw,28px);
+    font-size:.94rem;line-height:1.55;color:var(--fg-dim);max-width:46ch;margin-inline:auto;
+    border-top:1px solid rgba(1,51,138,.14);}
+  .manif-firma b{color:var(--azul);font-weight:800;letter-spacing:.01em;}
+  @media (max-width:600px){
+    .manif-frase{max-width:none;}
+  }
+
   /* Qué resolvemos */
   #resolvemos{background:linear-gradient(180deg,var(--bg) 0%,#eef3fb 45%,var(--bg) 100%);}
   .benes{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
@@ -128,7 +179,7 @@
   .bene::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;z-index:2;
     background:linear-gradient(90deg,var(--azul),var(--acento-claro));
     transform:scaleX(0);transform-origin:0 50%;transition:transform .55s cubic-bezier(.22,.61,.36,1);}
-  .bene:hover{transform:translateY(-10px);box-shadow:0 28px 60px rgba(1,51,138,.18);}
+  .bene:hover{transform:translateY(-6px);box-shadow:0 14px 34px rgba(1,51,138,.1);}
   .bene:hover::before{transform:scaleX(1);}
   .bene-foto{position:relative;aspect-ratio:4/3;overflow:hidden;}
   .bene-foto img{width:100%;height:100%;object-fit:cover;transform:scale(1.02);
@@ -154,14 +205,126 @@
   /* Nota interna para la agencia (no forma parte de la web pública) */
   .obs-agencia{max-width:760px;margin:0 auto 40px;padding:14px 18px;border:1px dashed #b8860b;border-radius:12px;
     background:rgba(184,134,11,.07);color:#8a6508;font-size:.82rem;font-weight:600;letter-spacing:.01em;text-align:center;}
+  /* Marca de agua: toda imagen provisional generada por IA queda senalada */
+  /* .ia no debe tocar position: el hero la usa en un elemento absoluto */
+  .ia::after{content:"IMAGEN PROVISIONAL · IA";position:absolute;bottom:10px;right:10px;z-index:3;
+    font-size:.58rem;font-weight:700;letter-spacing:.13em;color:#fff;
+    background:rgba(12,16,10,.6);border:1px solid rgba(255,255,255,.35);
+    padding:5px 9px;border-radius:3px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+    pointer-events:none;white-space:nowrap;}
+  @media (max-width:520px){.ia::after{font-size:.5rem;padding:4px 7px;letter-spacing:.1em;}}
+
+  /* ===== Tecnologia y control: foto grande + datos, sin tarjetas ===== */
+  #tecnologia{background:var(--bg);}
+  .tec-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:clamp(20px,2.6vw,38px);align-items:center;}
+  .tec-foto{grid-column:span 7;position:relative;border-radius:var(--radius);overflow:hidden;
+    aspect-ratio:4/3;margin:0;}
+  .tec-foto img{width:100%;height:100%;object-fit:cover;display:block;}
+  .tec-txt{grid-column:span 5;}
+  .tec-lead{font-size:clamp(1.02rem,1.5vw,1.16rem);line-height:1.6;color:var(--fg);}
+
+  .tec-datos{margin-top:26px;display:grid;gap:0;border-top:1px solid rgba(1,51,138,.16);}
+  .tec-datos div{padding:15px 0 16px;border-bottom:1px solid rgba(1,51,138,.1);}
+  .tec-datos div:last-child{border-bottom:none;}
+  .tec-datos dt{font-size:.64rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--azul);margin-bottom:3px;}
+  .tec-datos dd{margin:0;font-size:.9rem;color:var(--fg-dim);line-height:1.45;}
+
+  .tec-foto-ancha{grid-column:span 12;position:relative;margin:clamp(14px,2vw,26px) 0 0;
+    border-radius:var(--radius);overflow:hidden;aspect-ratio:21/8;}
+  .tec-foto-ancha img{width:100%;height:100%;object-fit:cover;object-position:center 42%;display:block;
+    transform:scale(1.02);transition:transform 1s cubic-bezier(.23,1,.32,1);}
+  @media (hover:hover) and (pointer:fine){
+    .tec-foto-ancha:hover img{transform:scale(1.06);}
+  }
+  .tec-foto-ancha figcaption{position:absolute;left:0;right:0;bottom:0;padding:34px 24px 16px;
+    font-size:.82rem;color:#fff;background:linear-gradient(180deg,transparent,rgba(14,20,11,.78));}
+
+  @media (max-width:860px){
+    .tec-foto,.tec-txt{grid-column:span 12;}
+    .tec-foto{aspect-ratio:16/10;}
+    .tec-foto-ancha{aspect-ratio:16/9;}
+  }
+  @media (prefers-reduced-motion:reduce){.tec-foto-ancha img{transition:none;transform:none;}}
+
+  .hero h1 span{display:block;margin:clamp(12px,1.6vh,20px) auto 0;
+    font-size:clamp(1.06rem,2.05vw,1.62rem);font-weight:400;letter-spacing:-.005em;line-height:1.34;
+    color:rgba(255,255,255,.93);max-width:30ch;text-shadow:0 2px 18px rgba(0,0,0,.55);}
+
+  /* Palabra clave en serif con trazo dibujado a mano */
+  .hero h1 .h1-ac{position:relative;display:inline-block;
+    font-family:'Source Serif 4',Georgia,serif;font-style:italic;font-weight:600;
+    letter-spacing:0;padding-right:.06em;}
+  .hero h1 .h1-trazo{position:absolute;left:-4%;right:-4%;bottom:-.16em;width:108%;height:.34em;
+    overflow:visible;pointer-events:none;}
+  .hero h1 .h1-trazo path{fill:none;stroke:#E9C98A;stroke-width:3.4;stroke-linecap:round;
+    stroke-dasharray:1;stroke-dashoffset:1;
+    filter:drop-shadow(0 2px 8px rgba(0,0,0,.45));
+    animation:h1-traza .9s cubic-bezier(.65,0,.35,1) 1.05s forwards;}
+  @keyframes h1-traza{to{stroke-dashoffset:0}}
+  .hero h1 span{border-top:1px solid rgba(255,255,255,.22);padding-top:clamp(14px,1.8vh,22px);}
+  @media (prefers-reduced-motion:reduce){
+    .hero h1 .h1-trazo path{animation:none;stroke-dashoffset:0;}
+  }
+
+  /* ===== Hero: carrusel de video de dron ===== */
+  .hero-vid{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;
+    opacity:0;transition:opacity .9s cubic-bezier(.4,0,.2,1);will-change:opacity;}
+  .hero-vid.on{opacity:1;}
+  .hero-fb{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;}
+  /* Con video activo la foto de respaldo desaparece; sin JS se queda la foto */
+  .escena.video .hero-fb{display:none;}
+  .escena:not(.video) .hero-vid{display:none;}
+
+  /* Velo mas denso: el dron trae cielo claro y plastico blanco */
+  .escena.video .hero-velo{background:
+      radial-gradient(120% 85% at 50% 46%,rgba(8,12,7,.16) 0%,rgba(8,12,7,.4) 62%,rgba(8,12,7,.6) 100%),
+      linear-gradient(180deg,rgba(8,12,7,.36) 0%,rgba(8,12,7,.12) 38%,rgba(8,12,7,.6) 100%);}
+  /* Sombra local detras del texto: el video trae naves blancas y cielo claro */
+  .escena.video .hero-cont::before{content:"";position:absolute;z-index:-1;
+    left:50%;top:50%;transform:translate(-50%,-50%);
+    width:150%;height:190%;pointer-events:none;
+    background:radial-gradient(closest-side ellipse at 50% 50%,
+      rgba(6,10,6,.62) 0%,rgba(6,10,6,.5) 42%,rgba(6,10,6,.24) 70%,transparent 100%);}
+  .escena.video h1{text-shadow:0 2px 26px rgba(0,0,0,.6),0 1px 3px rgba(0,0,0,.45);}
+  .escena.video .hero-eyebrow{text-shadow:0 1px 14px rgba(0,0,0,.7);}
+
+  /* Flechas y puntos */
+  .hero-nav{position:absolute;inset:0;z-index:2;pointer-events:none;}
+  .hero-fl{position:absolute;top:50%;transform:translateY(-50%);pointer-events:auto;
+    width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.42);color:#fff;cursor:pointer;
+    backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);
+    transition:background .25s ease,border-color .25s ease,transform .25s cubic-bezier(.34,1.4,.64,1);}
+  .hero-fl svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;
+    stroke-linecap:round;stroke-linejoin:round;}
+  .hero-fl.prev{left:clamp(12px,2.4vw,34px);}
+  .hero-fl.next{right:clamp(12px,2.4vw,34px);}
+  @media (hover:hover) and (pointer:fine){
+    .hero-fl:hover{background:rgba(255,255,255,.2);border-color:#fff;}
+    .hero-fl.prev:hover{transform:translateY(-50%) translateX(-3px);}
+    .hero-fl.next:hover{transform:translateY(-50%) translateX(3px);}
+  }
+  .hero-fl:focus-visible{outline:2px solid #fff;outline-offset:3px;}
+  .hero-puntos{position:absolute;left:50%;bottom:clamp(20px,3.4vh,38px);transform:translateX(-50%);
+    display:flex;gap:9px;pointer-events:auto;}
+  .hero-puntos button{width:34px;height:3px;border:none;padding:0;cursor:pointer;border-radius:2px;
+    background:rgba(255,255,255,.34);transition:background .3s ease,width .3s ease;}
+  .hero-puntos button.on{background:#fff;width:46px;}
+  .hero-puntos button:focus-visible{outline:2px solid #fff;outline-offset:4px;}
+  @media (max-width:640px){
+    .hero-fl{width:42px;height:42px;}
+    .hero-puntos button{width:24px;}.hero-puntos button.on{width:34px;}
+  }
+
   /* ===== Secciones genéricas ===== */
-  section{position:relative;padding:130px 0;}
-  .sec-head{text-align:center;max-width:760px;margin:0 auto 70px;}
+  section{position:relative;padding-block:clamp(84px,9vw,140px);}
+  .sec-head{text-align:center;max-width:820px;margin:0 auto clamp(44px,5vw,76px);}
   .sec-head h2,.split h2{
     background:linear-gradient(180deg,var(--fg) 30%,var(--azul));
     -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
   }
-  .sec-head h2{font-size:clamp(2rem,4.5vw,3.4rem);font-weight:800;letter-spacing:-.02em;line-height:1.1;}
+  .sec-head h2{font-size:clamp(2.15rem,4.6vw,4rem);font-weight:800;letter-spacing:-.035em;line-height:1.02;}
   /* Motivo de marca: rayita bajo cada eyebrow */
   .eyebrow::after{content:"";display:block;width:34px;height:2px;border-radius:2px;background:currentColor;opacity:.45;margin:10px auto 0;}
   .split .eyebrow::after{margin-left:0;}
@@ -187,7 +350,7 @@
     box-shadow:0 4px 24px rgba(0,0,0,.04);
     transition:transform .5s cubic-bezier(.22,.61,.36,1),box-shadow .5s ease;
   }
-  .cell:hover{transform:translateY(-6px);box-shadow:0 18px 50px rgba(0,0,0,.1);}
+  .cell:hover{transform:translateY(-4px);box-shadow:0 12px 28px rgba(0,0,0,.07);}
   .cell.big{grid-column:span 4;}
   .cell.small{grid-column:span 2;}
   .cell.half{grid-column:span 3;}
@@ -215,10 +378,15 @@
 
   /* ===== Productos — banda azulada de fondo ===== */
   #productos{background:linear-gradient(180deg,var(--bg) 0%,#e5eefb 20%,#e5eefb 80%,var(--bg) 100%);}
-  .prods{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+  .prods{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;}
+  /* Rejilla editorial: dos piezas grandes y dos medianas, sin cuatro iguales */
+  .prod:nth-child(1){grid-column:span 4;aspect-ratio:16/10;}
+  .prod:nth-child(2){grid-column:span 2;aspect-ratio:3/4;}
+  .prod:nth-child(3){grid-column:span 2;aspect-ratio:3/4;}
+  .prod:nth-child(4){grid-column:span 4;aspect-ratio:16/10;}
   .prod{
-    border-radius:var(--radius);overflow:hidden;position:relative;aspect-ratio:3/4.2;
-    border:1px solid rgba(0,0,0,.06);cursor:pointer;box-shadow:0 4px 24px rgba(0,0,0,.06);
+    border-radius:var(--radius);overflow:hidden;position:relative;
+    border:none;cursor:pointer;box-shadow:none;
   }
   .prod img{position:absolute;inset:0;transition:transform 1s cubic-bezier(.22,.61,.36,1);}
   .prod:hover img{transform:scale(1.07);}
@@ -264,8 +432,9 @@
   .prod .panel li.nofoto{opacity:.5;cursor:default;}
   .prod .panel li.nofoto:hover{background:rgba(255,255,255,.12);transform:none;}
   .prod .panel .nota{font-size:.66rem;color:#9db4dd;margin-top:14px;}
-  @media (max-width:860px){.prods{grid-template-columns:1fr 1fr;}}
-  @media (max-width:520px){.prods{grid-template-columns:1fr;}.prod{aspect-ratio:4/3;}}
+  @media (max-width:860px){.prods{grid-template-columns:1fr 1fr;}
+    .prod:nth-child(n){grid-column:span 1;aspect-ratio:4/5;}}
+  @media (max-width:520px){.prods{grid-template-columns:1fr;}.prod:nth-child(n){aspect-ratio:4/3;}}
 
   /* Visor grande: al elegir una especie, su foto aparece aquí abajo con fundido y zoom */
   .prod-preview{
@@ -470,8 +639,6 @@
 </head>
 <body>
 
-<div class="banner-proto">PROTOTIPO — textos y cifras pendientes de validación</div>
-
 <header>
   <div class="nav">
     <a class="nav-logo" href="#inicio"><img src="fotos/logo-la-sala-blanco.png" alt="Viveros y Semilleros La Sala"></a>
@@ -487,18 +654,53 @@
 </header>
 
 <!-- HERO (negro) -->
-<section class="hero" id="inicio">
-  <!-- Imagen de ambientacion (generada). No representa instalaciones ni partidas de La Sala. -->
-  <div class="hero-foto"><img src="fotos/hero-cosecha-tomate.jpg" alt="Cajón de madera con tomates, pimientos y berenjenas recién recogidos sobre una mesa rústica" loading="eager"></div>
+<div class="escena">
+
+  <div class="escena-fondo">
+  <!-- Video real de las instalaciones. La foto queda como respaldo en movil y sin JS. -->
+  <div class="hero-foto">
+    <video class="hero-vid on" src="videos/dron-1.mp4" poster="videos/poster-dron.jpg" muted playsinline preload="auto" aria-hidden="true"></video>
+    <video class="hero-vid" src="videos/dron-2.mp4" poster="videos/poster-dron.jpg" muted playsinline preload="metadata" aria-hidden="true"></video>
+    <video class="hero-vid" src="videos/dron-3.mp4" poster="videos/poster-dron.jpg" muted playsinline preload="metadata" aria-hidden="true"></video>
+    <img class="hero-fb" src="fotos/hero-cosecha-tomate.jpg" alt="Instalaciones de Viveros y Semilleros La Sala" loading="eager">
+  </div>
   <div class="hero-velo"></div>
+  <div class="hero-nav" hidden>
+    <button class="hero-fl prev" type="button" aria-label="Vídeo anterior">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+    </button>
+    <button class="hero-fl next" type="button" aria-label="Vídeo siguiente">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+    </button>
+    <div class="hero-puntos" role="tablist" aria-label="Vídeos de las instalaciones">
+      <button type="button" class="on" aria-label="Vídeo 1"></button>
+      <button type="button" aria-label="Vídeo 2"></button>
+      <button type="button" aria-label="Vídeo 3"></button>
+    </div>
+  </div>
+  </div>
+
+<section class="hero" id="inicio">
   <div class="hero-cont">
-    <p class="hero-eyebrow">Planta injertada para el agricultor profesional</p>
-    <h1>Detrás de cada cosecha hay una planta bien criada</h1>
+    <h1>Todo empieza <em class="h1-ac">aquí<svg class="h1-trazo" viewBox="0 0 220 22" preserveAspectRatio="none" aria-hidden="true"><path d="M4 15C38 6 92 4 140 8c26 2 48 5 76 9" pathLength="1"/></svg></em>.<span>Nos encargamos de que llegue a ser todo lo que puede llegar a ser.</span></h1>
     <a href="#resolvemos" class="hero-btn">Por qué injertar
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
     </a>
   </div>
+
 </section>
+
+<!-- MANIFIESTO / NUESTRO PORQUÉ -->
+<section id="porque" class="manif">
+  <div class="wrap manif-in">
+    <span class="manif-lbl rv">Nuestro porqué</span>
+    <p class="manif-frase rv d1">Creemos que <em class="ital">ninguna semilla debería dar menos de lo que puede dar.</em></p>
+    <p class="manif-txt rv d2">Un agricultor nos entrega lo más valioso que tiene en el momento más frágil de su vida, y confía en que la convirtamos en todo lo que estaba destinada a ser.</p>
+    <p class="manif-firma rv d3"><b>Desde 1989</b> persiguiendo exactamente eso: convertir sus necesidades en realidad.</p>
+  </div>
+</section>
+
+</div><!-- /escena -->
 
 <!-- QUÉ RESOLVEMOS -->
 <section id="resolvemos">
@@ -512,9 +714,9 @@
         <div class="bene-foto"><img src="fotos/injerto-sandia-raiz.jpg" alt="Sistema radicular de planta injertada" loading="lazy"></div>
         <div class="bene-txt">
           <div class="bene-ic"><svg viewBox="0 0 24 24"><path d="M12 2l8 3.5V11c0 5-3.4 9-8 10.5C7.4 20 4 16 4 11V5.5L12 2z"/><path d="M9 11.5l2 2 4.5-4.5"/></svg></div>
-          <span class="bene-tag">Sanidad</span>
-          <h3>Barrera frente a los patógenos del suelo</h3>
-          <p>El patrón se elige por su resistencia a los hongos y nematodos que viven en la tierra y que se acumulan campaña tras campaña. <span class="pend-i">[patrones y resistencias — validar con técnico]</span></p>
+          <span class="bene-tag">Control</span>
+          <h3>El suelo no perdona un patrón débil</h3>
+          <p>Los hongos y nematodos se acumulan en la tierra, campaña tras campaña, hasta que un día deciden por ti cuánto vas a cosechar. Elegimos cada patrón precisamente para que esa decisión siga siendo tuya.</p>
         </div>
       </article>
       <article class="bene rv d1">
@@ -522,8 +724,8 @@
         <div class="bene-txt">
           <div class="bene-ic"><svg viewBox="0 0 24 24"><path d="M12 22v-8"/><path d="M12 12c0-4-3-6-6-9"/><path d="M12 12c0-4 3-6 6-9"/><circle cx="12" cy="13" r="2.4"/></svg></div>
           <span class="bene-tag">Vigor</span>
-          <h3>Una raíz que aprovecha mejor agua y abono</h3>
-          <p>Un sistema radicular más potente explora más suelo y sostiene mejor la planta en los momentos de mayor demanda del cultivo. <span class="pend-i">[revisión técnica]</span></p>
+          <h3>Riegas lo mismo y la planta aprovecha más</h3>
+          <p>El agua y el abono ya los estás pagando; el problema es cuánto llega de verdad a la planta. Un sistema radicular más potente explora más suelo y sostiene el cultivo cuando más demanda.</p>
         </div>
       </article>
       <article class="bene rv d2">
@@ -531,8 +733,8 @@
         <div class="bene-txt">
           <div class="bene-ic"><svg viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M3 12h4M17 12h4"/><circle cx="12" cy="12" r="4"/><path d="M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8"/></svg></div>
           <span class="bene-tag">Resistencia</span>
-          <h3>Más aguante frente al estrés del terreno</h3>
-          <p>Salinidad, suelos fríos o encharcados: el patrón adecuado ayuda a que el cultivo no se resienta cuando las condiciones aprietan. <span class="pend-i">[revisión técnica]</span></p>
+          <h3>Cuando el terreno aprieta, se ve el patrón</h3>
+          <p>Salinidad, suelos fríos, encharcamientos: hay campañas en que manda el terreno y no el calendario. El patrón adecuado evita que el cultivo se pare justo cuando no te lo puedes permitir.</p>
         </div>
       </article>
       <article class="bene rv d3">
@@ -540,8 +742,8 @@
         <div class="bene-txt">
           <div class="bene-ic"><svg viewBox="0 0 24 24"><path d="M4 19h16"/><path d="M7 19V9M12 19V5M17 19v-7"/></svg></div>
           <span class="bene-tag">Uniformidad</span>
-          <h3>Menos marras y un cultivo que va a una</h3>
-          <p>Controlamos el prendimiento planta a planta: llega pareja, arranca a la vez y te ahorra reposiciones en el invernadero.</p>
+          <h3>Un cultivo que va a una, no cada planta a su aire</h3>
+          <p>Una partida desigual te obliga a trabajar dos veces: reponer marras, entrar otro día, recolectar en tandas. Controlamos el prendimiento planta a planta para que llegue pareja y arranque a la vez.</p>
         </div>
       </article>
       <article class="bene rv">
@@ -558,8 +760,8 @@
         <div class="bene-txt">
           <div class="bene-ic"><svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5z"/><path d="M14 3v5h5"/><path d="M9 14l2 2 4-4"/></svg></div>
           <span class="bene-tag">Trazabilidad</span>
-          <h3>Cada partida, con nombre y apellidos</h3>
-          <p>Identificada desde la siembra hasta la entrega. Si algo hay que revisar, sabemos exactamente de dónde viene tu planta.</p>
+          <h3>Si hay que mirar atrás, sabemos dónde mirar</h3>
+          <p>Cada partida queda identificada desde la siembra hasta la entrega. No tienes que fiarte de nuestra palabra: está registrado y lo puedes consultar.</p>
         </div>
       </article>
     </div>
@@ -575,10 +777,40 @@
       <h2 class="rv d1">Todo lo bueno empieza<br>en la <span class="ital">raíz</span>.</h2>
       <p class="lead rv d2">Un patrón aporta la raíz; una variedad aporta el fruto. Unir los dos con garantías exige sincronización, precisión e higiene — y ahí es donde marcamos la diferencia, planta a planta.</p>
       <ul class="feature-list rv d3">
-        <li>Trabajamos el injerto en tomate, sandía, melón, pepino, pimiento, berenjena y judía. <span class="pend-i">[validar]</span></li>
+        <li>Trabajamos el injerto en tomate, sandía, melón, pepino, pimiento, berenjena y judía.</li>
         <li>Área exclusiva de injertado, con protocolos de higiene propios.</li>
         <li>Seguimiento del prendimiento hasta que la planta arraiga con fuerza.</li>
       </ul>
+    </div>
+  </div>
+</section>
+
+<!-- TECNOLOGIA Y CONTROL -->
+<section id="tecnologia">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <h2>Tecnología al servicio del <span class="ital">proceso</span>.</h2>
+      <p>No es la máquina: es que la partida de marzo salga igual que la de octubre.</p>
+    </div>
+
+    <div class="tec-grid">
+      <figure class="tec-foto ia rv">
+        <img src="fotos/ia-linea-siembra.jpg" alt="Línea automática de siembra de bandejas de plantel supervisada por un operario" loading="lazy" decoding="async">
+      </figure>
+
+      <div class="tec-txt rv d1">
+        <p class="tec-lead">Sembramos, climatizamos y regamos con procesos medidos, para que el resultado no dependa de la suerte ni del día que le toque a tu pedido.</p>
+        <dl class="tec-datos">
+          <div><dt>Siembra</dt><dd>Programada a partir de tu fecha de trasplante</dd></div>
+          <div><dt>Cámaras</dt><dd>Condiciones acondicionadas para cada especie</dd></div>
+          <div><dt>Registro</dt><dd>Cada partida identificada y documentada</dd></div>
+        </dl>
+      </div>
+
+      <figure class="tec-foto-ancha ia rv d2">
+        <img src="fotos/ia-control-calidad.jpg" alt="Técnica con guantes revisando una bandeja de plántulas junto a la hoja de registro de la partida" loading="lazy" decoding="async">
+        <figcaption>Control de la partida antes de salir.</figcaption>
+      </figure>
     </div>
   </div>
 </section>
@@ -609,7 +841,7 @@
         <div class="icon"><svg viewBox="0 0 24 24"><path d="M4 6l8-3 8 3-8 3-8-3z"/><path d="M4 6v8c0 1.5 3.5 3 8 3s8-1.5 8-3V6"/></svg></div>
         <span class="num">03</span>
         <h3>Responsabilidad</h3>
-        <p>Respondemos de cada partida que sale de aquí, del primer contacto a la entrega. <span class="pend-i">[texto no legible en el PDF — confirmar]</span></p>
+        <p>Respondemos de cada partida que sale de aquí, del primer contacto a la entrega.</p>
       </div>
       <div class="cell half tint rv d1">
         <div class="icon"><svg viewBox="0 0 24 24"><rect x="7" y="7" width="10" height="10" rx="1.5"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/></svg></div>
@@ -621,7 +853,7 @@
         <div class="icon"><svg viewBox="0 0 24 24"><path d="M4 19c4 0 4-6 8-6s4 6 8 6"/><circle cx="4" cy="19" r="1.4"/><circle cx="20" cy="19" r="1.4"/></svg></div>
         <span class="num">05</span>
         <h3>Recorrido y proceso productivo</h3>
-        <p>Trayectoria desde 1989 <span class="pend-i">[validar]</span>, con el pedido, la siembra y la entrega documentados en cada etapa.</p>
+        <p>Trayectoria desde 1989, con el pedido, la siembra y la entrega documentados en cada etapa.</p>
       </div>
     </div>
   </div>
@@ -718,13 +950,13 @@
     <div class="sec-head rv">
       <span class="eyebrow">La Sala en números</span>
       <h2>Los números también<br>trabajan <span class="ital">para ti</span>.</h2>
-      <p>Cifras tomadas de viveroslasala.com, a la espera de confirmación interna. <span class="pend-i">[por validar]</span></p>
+      <p>Capacidad para responder a tu campaña, no para lucir en una web.</p>
     </div>
     <div class="cifras-g">
-      <div class="cifra rv"><div class="v" data-n="37">0</div><div class="l">Años de trayectoria</div><div class="s">Especialistas en injerto desde 1989</div><div class="pend">POR VALIDAR</div></div>
-      <div class="cifra rv d1"><div class="v" data-n="380">0</div><div class="l">Personas en plantilla</div><div class="s">Un equipo dedicado cada campaña</div><div class="pend">POR VALIDAR</div></div>
-      <div class="cifra rv d2"><div class="v" data-n="20">0</div><div class="l">Provincias abastecidas</div><div class="s">Reparto por toda España</div><div class="pend">POR VALIDAR</div></div>
-      <div class="cifra rv d3"><div class="v" data-n="165000">0</div><div class="l">Bandejas</div><div class="s">Capacidad total simultánea</div><div class="pend">POR VALIDAR</div></div>
+      <div class="cifra rv"><div class="v" data-n="37">0</div><div class="l">Años de experiencia</div><div class="s">Criando planta hortícola desde 1989</div></div>
+      <div class="cifra rv d1"><div class="v" data-n="120" data-pre="+" data-suf=" M">0</div><div class="l">Plantas al año</div><div class="s">Más de 120 millones producidas por campaña</div></div>
+      <div class="cifra rv d2"><div class="v" data-n="18">0</div><div class="l">Hectáreas de invernadero</div><div class="s">Instalaciones propias adaptadas por cultivo</div></div>
+      <div class="cifra rv d3"><div class="v" data-n="200000">0</div><div class="l">Bandejas de capacidad</div><div class="s">Producción simultánea sin apretar los plazos</div></div>
     </div>
   </div>
 </section>
@@ -850,15 +1082,15 @@
     <div class="f-grid">
       <div>
         <img src="fotos/logo-la-sala.png" alt="La Sala" style="height:64px;width:auto;">
-        <p style="margin-top:14px;">Ctra. Lo Romero, km 5, 30740 San Pedro del Pinatar, Región de Murcia. <span class="pend-i">[confirmar]</span></p>
+        <p style="margin-top:14px;">Ctra. Lo Romero, km 5, 30740 San Pedro del Pinatar, Región de Murcia.</p>
       </div>
       <div><h4>Empresa</h4><ul><li><a href="#valores">La Sala</a></li><li><a href="#proceso">Cómo trabajamos</a></li><li><a href="#">Trabaja con nosotros</a></li></ul></div>
       <div><h4>Legal</h4><ul><li><a href="#">Aviso legal</a></li><li><a href="#">Privacidad</a></li><li><a href="#">Cookies</a></li></ul></div>
-      <div><h4>Contacto</h4><ul><li>info@viveroslasala.com <span class="pend-i">[confirmar]</span></li><li>Tel. <span class="pend-i">[decidir]</span></li></ul></div>
+      <div><h4>Contacto</h4><ul><li>info@viveroslasala.com</li></ul></div>
     </div>
     <div class="f-bottom">
       <span>© 2026 Grupo Semilleros La Sala, S.L. — Prototipo de diseño, no publicar.</span>
-      <span>NIF: B30206080 <span class="pend-i">[validar]</span></span>
+      <span>NIF: B30206080</span>
     </div>
   </div>
 </footer>
@@ -1040,13 +1272,15 @@
         if(!e.isIntersecting) return;
         ioN.unobserve(e.target);
         var el = e.target, target = parseInt(el.getAttribute('data-n'),10)||0;
-        if(reduced){ el.textContent = target.toLocaleString('es-ES'); return; }
+        var pre = el.getAttribute('data-pre')||'', suf = el.getAttribute('data-suf')||'';
+        function pinta(n){ el.textContent = pre + n.toLocaleString('es-ES') + suf; }
+        if(reduced){ pinta(target); return; }
         var t0 = null;
         function step(t){
           if(!t0) t0 = t;
           var k = Math.min(1,(t-t0)/1200);
           k = 1-Math.pow(1-k,3);
-          el.textContent = Math.round(target*k).toLocaleString('es-ES');
+          pinta(Math.round(target*k));
           if(k<1) requestAnimationFrame(step);
         }
         requestAnimationFrame(step);
@@ -1055,6 +1289,60 @@
     document.querySelectorAll('.cifra .v').forEach(function(el){ ioN.observe(el); });
   }
 })();
+
+  /* Carrusel de video del hero: solo en pantallas grandes y si el usuario acepta movimiento */
+  (function(){
+    var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var hero = document.querySelector('.escena');
+    if(!hero) return;
+    var vids = [].slice.call(hero.querySelectorAll('.hero-vid'));
+    var nav  = hero.querySelector('.hero-nav');
+    var pts  = nav ? [].slice.call(nav.querySelectorAll('.hero-puntos button')) : [];
+    if(vids.length < 2 || !nav) return;
+    if(reduced || window.matchMedia('(max-width:760px)').matches) return;
+
+    hero.classList.add('video');
+    nav.hidden = false;
+    var i = 0, tmr = null;
+
+    function ir(n, manual){
+      n = (n + vids.length) % vids.length;
+      if(n === i && !manual) return;
+      var ant = vids[i]; i = n;
+      vids.forEach(function(v,k){ v.classList.toggle('on', k===i); });
+      pts.forEach(function(b,k){ b.classList.toggle('on', k===i); });
+      var v = vids[i];
+      v.currentTime = 0;
+      var pr = v.play(); if(pr && pr.catch) pr.catch(function(){});
+      setTimeout(function(){ if(ant !== v){ ant.pause(); ant.currentTime = 0; } }, 900);
+      reloj();
+    }
+    function reloj(){
+      clearTimeout(tmr);
+      tmr = setTimeout(function(){ ir(i+1); }, 5200);
+    }
+    nav.querySelector('.prev').addEventListener('click', function(){ ir(i-1, true); });
+    nav.querySelector('.next').addEventListener('click', function(){ ir(i+1, true); });
+    pts.forEach(function(b,k){ b.addEventListener('click', function(){ ir(k, true); }); });
+    vids.forEach(function(v){ v.addEventListener('ended', function(){ if(v.classList.contains('on')) ir(i+1); }); });
+
+    var pr = vids[0].play(); if(pr && pr.catch) pr.catch(function(){});
+    reloj();
+
+    /* Al dejar atras el hero, las flechas se retiran para no molestar al texto */
+    var tick=false;
+    window.addEventListener('scroll',function(){
+      if(tick) return; tick=true;
+      requestAnimationFrame(function(){
+        hero.classList.toggle('pasado', window.scrollY > window.innerHeight*.72);
+        tick=false;
+      });
+    },{passive:true});
+    document.addEventListener('visibilitychange', function(){
+      if(document.hidden){ clearTimeout(tmr); vids[i].pause(); }
+      else { var p = vids[i].play(); if(p && p.catch) p.catch(function(){}); reloj(); }
+    });
+  })();
 </script>
 </body>
 </html>
